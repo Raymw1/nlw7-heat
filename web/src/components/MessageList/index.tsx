@@ -1,49 +1,42 @@
 import styles from './styles.module.scss';
 
 import logoImg from '../../assets/logo.svg';
+import { useEffect, useState } from 'react';
+import { api } from '../../services/api';
+
+type Message = {
+  id: string;
+  text: string;
+  user: {
+    avatar_url: string;
+    name: string;
+  };
+};
 
 export function MessageList() {
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    api.get<Message[]>('/messages/last3').then((result) => {
+      setMessages(result.data);
+    });
+  }, []);
+
   return (
     <div className={styles.messageListWrapper}>
       <img src={logoImg} alt='DoWhile 2021' />
       <ul className={styles.messageList}>
-        <li className={styles.message}>
-          <p className={styles.messageContent}>
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
-            cillum sint consectetur cupidatat.
-          </p>
-          <div className={styles.messageUser}>
-            <div className={styles.userImage}>
-              <img src='https://github.com/Raymw1.png' alt='Rayan Wilbert' />
+        {messages.map(message => (
+          <li className={styles.message} key={message.id}>
+            <p className={styles.messageContent}>{message.text}</p>
+            <div className={styles.messageUser}>
+              <div className={styles.userImage}>
+                <img src={message.user.avatar_url} alt={message.user.name} />
+              </div>
+              <span>{message.user.name}</span>
             </div>
-            <span>Rayan Wilbert</span>
-          </div>
-        </li>
-
-        <li className={styles.message}>
-          <p className={styles.messageContent}>
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
-            cillum sint consectetur cupidatat.
-          </p>
-          <div className={styles.messageUser}>
-            <div className={styles.userImage}>
-              <img src='https://github.com/Raymw1.png' alt='Rayan Wilbert' />
-            </div>
-            <span>Rayan Wilbert</span>
-          </div>
-        </li>
-        <li className={styles.message}>
-          <p className={styles.messageContent}>
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
-            cillum sint consectetur cupidatat.
-          </p>
-          <div className={styles.messageUser}>
-            <div className={styles.userImage}>
-              <img src='https://github.com/Raymw1.png' alt='Rayan Wilbert' />
-            </div>
-            <span>Rayan Wilbert</span>
-          </div>
-        </li>
+          </li>
+        ))}
       </ul>
     </div>
   );
