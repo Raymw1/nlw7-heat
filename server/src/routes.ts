@@ -1,6 +1,9 @@
 import { Router } from 'express';
 
+import { ensureAuthenticated } from './middlewares/ensureAuthenticated';
+
 import { AuthenticateUserController } from './controllers/AuthenticateUserController';
+import { CreateMessageController } from './controllers/CreateMessageController';
 
 const routes = Router();
 
@@ -16,5 +19,11 @@ routes.get('/signin/callback', (request, response) => {
 });
 
 routes.post('/authenticate', new AuthenticateUserController().handle);
+
+routes.post(
+  '/messages',
+  ensureAuthenticated,
+  new CreateMessageController().handle
+);
 
 export { routes };
