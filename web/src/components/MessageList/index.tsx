@@ -1,8 +1,10 @@
-import styles from './styles.module.scss';
-
-import logoImg from '../../assets/logo.svg';
 import { useEffect, useState } from 'react';
+import io from 'socket.io-client';
+
 import { api } from '../../services/api';
+
+import styles from './styles.module.scss';
+import logoImg from '../../assets/logo.svg';
 
 type Message = {
   id: string;
@@ -13,6 +15,13 @@ type Message = {
   };
 };
 
+let messagesQueue: Message[] = [];
+
+const socket = io('http://localhost:3333/');
+socket.on('new_message', (newMessage) => {
+  messagesQueue.push(newMessage);
+});
+
 export function MessageList() {
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -22,11 +31,24 @@ export function MessageList() {
     });
   }, []);
 
+  useEffect(() => {
+    setInterval(() => {
+      if (messagesQueue.length > 0) {
+        setMessages((oldMessages) => {
+          let messagesList = [...messagesQueue, ...oldMessages];
+          if (messagesList.length > 3) messagesList = messagesList.slice(0, 3);
+          messagesQueue = [];
+          return messagesList;
+        });
+      }
+    }, 3000);
+  }, []);
+
   return (
     <div className={styles.messageListWrapper}>
       <img src={logoImg} alt='DoWhile 2021' />
       <ul className={styles.messageList}>
-        {messages.map(message => (
+        {messages.map((message) => (
           <li className={styles.message} key={message.id}>
             <p className={styles.messageContent}>{message.text}</p>
             <div className={styles.messageUser}>
