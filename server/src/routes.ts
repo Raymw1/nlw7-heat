@@ -4,6 +4,7 @@ import { ensureAuthenticated } from './middlewares/ensureAuthenticated';
 
 import { AuthenticateUserController } from './controllers/AuthenticateUserController';
 import { CreateMessageController } from './controllers/CreateMessageController';
+import { GetLast3MessagesController } from './controllers/GetLast3MessagesController';
 
 const routes = Router();
 
@@ -19,6 +20,8 @@ routes.get('/signin/callback', (request, response) => {
 });
 
 routes.post('/authenticate', new AuthenticateUserController().handle);
+
+routes.get('/messages/last3', new GetLast3MessagesController().handle);
 
 routes.post(
   '/messages',
