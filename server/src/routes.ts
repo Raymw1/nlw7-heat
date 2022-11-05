@@ -5,6 +5,7 @@ import { ensureAuthenticated } from './middlewares/ensureAuthenticated';
 import { AuthenticateUserController } from './controllers/AuthenticateUserController';
 import { CreateMessageController } from './controllers/CreateMessageController';
 import { GetLast3MessagesController } from './controllers/GetLast3MessagesController';
+import { ProfileUserController } from './controllers/ProfileUserController';
 
 const routes = Router();
 
@@ -28,5 +29,7 @@ routes.post(
   ensureAuthenticated,
   new CreateMessageController().handle
 );
+
+routes.get('/profile', ensureAuthenticated, new ProfileUserController().handle);
 
 export { routes };
