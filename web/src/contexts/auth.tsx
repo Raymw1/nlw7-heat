@@ -44,6 +44,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { token, user } = response.data;
     localStorage.setItem('@dowhile:token', token);
     setUser(user);
+    api.defaults.headers.authorization = `Bearer ${token}`;
   }
 
   async function signOut() {
