@@ -1,4 +1,4 @@
-import { COLORS } from "./colors";
-import { FONTS } from "./fonts";
+import { colors } from "./colors";
+import { fonts } from "./fonts";
 
-export { COLORS, FONTS };
+export { colors, fonts };

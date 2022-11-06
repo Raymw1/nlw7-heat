@@ -1,4 +1,4 @@
-export const FONTS = {
-  REGULAR: 'Roboto_400Regular',
-  BOLD: 'Roboto_700Bold',
+export const fonts = {
+  regular: 'Roboto_400Regular',
+  bold: 'Roboto_700Bold',
 }

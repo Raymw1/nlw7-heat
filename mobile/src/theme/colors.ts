@@ -1,16 +1,16 @@
-export const COLORS = {
-  WHITE: '#FFFFFF',
-  GREEN: '#1B873F',
-  PINK: '#FF008E',
-  ORANGE: '#FF7A29',
-  YELLOW: '#FFCD1E',
+export const colors = {
+  white: '#FFFFFF',
+  green: '#1B873F',
+  pink: '#FF008E',
+  orange: '#FF7A29',
+  yellow: '#FFCD1E',
 
-  BLACK_PRIMARY: '#09090A',
-  BLACK_SECONDARY: '#121214',
-  BLACK_TERTIARY: '#202024',
+  black_primary: '#09090A',
+  black_secondary: '#121214',
+  black_tertiary: '#202024',
 
-  GRAY_PRIMARY: '#8D8D99',
-  GRAY_SECONDARY: '#C4C4CC',
-  GRAY_TERTIARY: '#E1E1E6',
-  GRAY_QUATERNARY: '#29292E',
+  gray_primary: '#8D8D99',
+  gray_secondary: '#C4C4CC',
+  gray_tertiary: '#E1E1E6',
+  gray_quaternary: '#29292E',
 }
