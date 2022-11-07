@@ -1,9 +1,9 @@
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import { styles } from "./styles";
-import { colors } from "../../theme";
+import { styles } from './styles';
+import { colors } from '../../theme';
 
-import { Button } from "../Button";
+import { Button } from '../Button';
 
 export function SignInBox() {
   return (
