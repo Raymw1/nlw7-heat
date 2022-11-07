@@ -5,6 +5,7 @@ import { Home } from './src/screens/Home';
 
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 import * as SplashScreen from 'expo-splash-screen';
+import { AuthProvider } from './src/contexts/auth';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,8 +23,10 @@ export default function App() {
 
   return (
     <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <StatusBar style='light' />
-      <Home />
+      <AuthProvider>
+        <StatusBar style='light' translucent backgroundColor='transparent' />
+        <Home />
+      </AuthProvider>
     </View>
   );
 }
