@@ -12,6 +12,7 @@ export function SignInBox() {
         title='Sign in with Github'
         color={colors.black_primary}
         backgroundColor={colors.yellow}
+        icon='github'
       />
     </View>
   );

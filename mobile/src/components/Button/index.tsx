@@ -16,7 +16,7 @@ export function Button({
   title,
   color,
   backgroundColor,
-  icon = 'github',
+  icon,
   isLoading = false,
   ...props
 }: ButtonProps) {
