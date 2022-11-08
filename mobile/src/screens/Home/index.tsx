@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 
 import { Header } from "../../components/Header";
 import { MessageList } from "../../components/MessageList";
@@ -13,10 +13,10 @@ export function Home() {
   const { user } = useAuth();
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} >
       <Header />
       <MessageList />
       {user ? <SendMessageForm /> : <SignInBox />}
-    </View>
+    </KeyboardAvoidingView>
   );
 }
