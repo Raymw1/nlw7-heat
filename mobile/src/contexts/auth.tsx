@@ -36,30 +36,50 @@ type AuthResponse = {
 type AuthorizationResponse = {
   params: {
     code?: string;
+    error?: string;
   };
+  type?: string;
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
   async function signIn() {
-    setIsSigningIn(true);
-    const authUrl = `https://github.com/login/oauth/authorize?client_id=${Constants.expoConfig?.extra?.CLIENT_ID}&scope=${SCOPE}`;
-    const { params } = await AuthSession.startAsync({ authUrl }) as AuthorizationResponse;
-    if (params?.code) {
-      const authResponse = await api.post<AuthResponse>('/authenticate', { code: params.code });
-      const { user, token } = authResponse.data;
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      await AsyncStorage.setItem(USER_STORAGE, JSON.stringify(user));
-      await AsyncStorage.setItem(TOKEN_STORAGE, token);
-      setUser(user);
-    }
+    try {
+      setIsSigningIn(true);
+      const authUrl = `https://github.com/login/oauth/authorize?client_id=${Constants.expoConfig?.extra?.CLIENT_ID}&scope=${SCOPE}`;
+      const authSessionResponse = await AuthSession.startAsync({ authUrl }) as AuthorizationResponse;
+      if (authSessionResponse.type === 'success' && authSessionResponse.params.error !== 'access_denied') {
+        const authResponse = await api.post<AuthResponse>('/authenticate', { code: authSessionResponse.params.code });
+        const { user, token } = authResponse.data;
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        await AsyncStorage.setItem(USER_STORAGE, JSON.stringify(user));
+        await AsyncStorage.setItem(TOKEN_STORAGE, token);
+        setUser(user);
+      }
 
-    setIsSigningIn(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSigningIn(false);
+    }
   }
 
   async function signOut() { }
+
+  useEffect(() => {
+    async function loadUserStorageData() {
+      const userStorage = await AsyncStorage.getItem(USER_STORAGE);
+      const token = await AsyncStorage.getItem(TOKEN_STORAGE);
+      if (userStorage && token) {
+        setUser(JSON.parse(userStorage));
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      }
+      setIsSigningIn(false);
+    }
+    loadUserStorageData();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isSigningIn, user, signIn, signOut }}>
