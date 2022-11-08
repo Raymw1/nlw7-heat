@@ -3,6 +3,7 @@
     "name": "nlwheat",
     "slug": "nlwheat",
     "version": "1.0.0",
+    "scheme": "nlwheatapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -28,6 +29,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "CLIENT_ID": "fd324499f81ec89bd1d8"
     }
   }
 }

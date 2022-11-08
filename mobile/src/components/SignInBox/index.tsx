@@ -4,8 +4,11 @@ import { styles } from './styles';
 import { colors } from '../../theme';
 
 import { Button } from '../Button';
+import { useAuth } from '../../hooks/auth';
 
 export function SignInBox() {
+  const { signIn } = useAuth();
+
   return (
     <View style={styles.container}>
       <Button
@@ -13,6 +16,7 @@ export function SignInBox() {
         color={colors.black_primary}
         backgroundColor={colors.yellow}
         icon='github'
+        onPress={signIn}
       />
     </View>
   );
